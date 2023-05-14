@@ -63,7 +63,6 @@ function fetchProducts() {
 }
 fetchProducts().then(function (products) {
     var worksheet = XLSX.utils.json_to_sheet(products);
-    console.log("worksheet: ", worksheet);
     var workBook = XLSX.utils.book_new();
     workBook.Props = {
         Title: "Filmes",

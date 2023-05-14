@@ -25,7 +25,6 @@ async function fetchProducts(): Promise<Product[]> {
 
 fetchProducts().then((products) => {
   const worksheet = XLSX.utils.json_to_sheet(products);
-  console.log("worksheet: ", worksheet);
   let workBook = XLSX.utils.book_new();
   workBook.Props = {
     Title: "Filmes",
