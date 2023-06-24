@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import * as XLSX from "xlsx";
-const fs = require("fs");
+import fs from "fs";
+
 XLSX.set_fs(fs);
 
 interface Product {
@@ -21,14 +22,15 @@ async function fetchProducts(): Promise<Product[]> {
     return [];
   }
 }
-const getWorksheetArray = async function (products: Product[]) {
-  const worksheetData = [];
+const getWorksheetArray = async function (
+  products: Product[]
+): Promise<any[][]> {
+  const worksheetData: any[][] = [];
 
   const lineHeader = ["Titulo", "Preço"];
   worksheetData.push(lineHeader);
 
-  for (let i = 0; i < products.length; i++) {
-    const product = products[i];
+  for (const product of products) {
     const lineData = [product.title, product.price.toString()];
     worksheetData.push(lineData);
   }
@@ -37,8 +39,9 @@ const getWorksheetArray = async function (products: Product[]) {
 };
 
 async function main() {
-  fetchProducts().then(async (products) => {
-    let workBook = XLSX.utils.book_new();
+  try {
+    const products = await fetchProducts();
+    const workBook = XLSX.utils.book_new();
     workBook.Props = {
       Title: "Filmes",
       Subject: "",
@@ -56,9 +59,12 @@ async function main() {
       bookSST: false,
     });
     fs.writeFileSync("filmes.xlsx", content);
-  });
-  // A partir dos dados em memória resultado do parse,
-  // monta um array no formato do SheetJs
+
+    // A partir dos dados em memória resultado do parse,
+    // monta um array no formato do SheetJs
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 main();
