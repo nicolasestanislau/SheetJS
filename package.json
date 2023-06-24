@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "axios": "^1.2.2",
+    "fs": "^0.0.1-security",
     "sheetjs": "github:jshanson7/sheetjs",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },

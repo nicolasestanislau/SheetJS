@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import * as XLSX from "xlsx";
-import fs from "fs";
+import * as fs from "fs";
 
 XLSX.set_fs(fs);
 
@@ -47,6 +47,9 @@ async function main() {
       Subject: "",
       CreatedDate: new Date(),
     };
+
+    // A partir dos dados em memória resultado do parse,
+    // monta um array no formato do SheetJs
     const worksheetArray = await getWorksheetArray(products);
 
     // cria aba na planilha
@@ -59,9 +62,6 @@ async function main() {
       bookSST: false,
     });
     fs.writeFileSync("filmes.xlsx", content);
-
-    // A partir dos dados em memória resultado do parse,
-    // monta um array no formato do SheetJs
   } catch (error) {
     console.error(error);
   }
