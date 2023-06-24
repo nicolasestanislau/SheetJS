@@ -61,19 +61,54 @@ function fetchProducts() {
         });
     });
 }
-fetchProducts().then(function (products) {
-    var worksheet = XLSX.utils.json_to_sheet(products);
-    var workBook = XLSX.utils.book_new();
-    workBook.Props = {
-        Title: "Filmes",
-        Subject: "",
-        CreatedDate: new Date(),
-    };
-    XLSX.utils.book_append_sheet(workBook, worksheet, "teste");
-    var content = XLSX.write(workBook, {
-        type: "buffer",
-        bookType: "xlsx",
-        bookSST: false,
+var getWorksheetArray = function (products) {
+    return __awaiter(this, void 0, void 0, function () {
+        var worksheetData, lineHeader, i, product, lineData;
+        return __generator(this, function (_a) {
+            worksheetData = [];
+            lineHeader = ["Titulo", "Preço"];
+            worksheetData.push(lineHeader);
+            for (i = 0; i < products.length; i++) {
+                product = products[i];
+                lineData = [product.title, product.price.toString()];
+                worksheetData.push(lineData);
+            }
+            return [2 /*return*/, worksheetData];
+        });
     });
-    fs.writeFileSync("filmes.xlsx", content);
-});
+};
+function main() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            fetchProducts().then(function (products) { return __awaiter(_this, void 0, void 0, function () {
+                var workBook, worksheetArray, workData, content;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            workBook = XLSX.utils.book_new();
+                            workBook.Props = {
+                                Title: "Filmes",
+                                Subject: "",
+                                CreatedDate: new Date(),
+                            };
+                            return [4 /*yield*/, getWorksheetArray(products)];
+                        case 1:
+                            worksheetArray = _a.sent();
+                            workData = XLSX.utils.aoa_to_sheet(worksheetArray);
+                            XLSX.utils.book_append_sheet(workBook, workData, "filmes");
+                            content = XLSX.write(workBook, {
+                                type: "buffer",
+                                bookType: "xlsx",
+                                bookSST: false,
+                            });
+                            fs.writeFileSync("filmes.xlsx", content);
+                            return [2 /*return*/];
+                    }
+                });
+            }); });
+            return [2 /*return*/];
+        });
+    });
+}
+main();
