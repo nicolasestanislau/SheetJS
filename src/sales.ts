@@ -30,12 +30,6 @@ const getWorksheetArray = async function (
   const lineHeader = ["Quantidade", "Capa", "Titulo", "Preço"];
   worksheetData.push(lineHeader);
 
-  /*   for (const product of products) {
-    if (typeof product === "object" && product.hasOwnProperty("quantity")) {
-      //const quantity = product.quantity;
-      console.log("Quantity:", product);
-    }
-  } */
   const repeatedQuantities = products
     .map((item) => {
       console.log("products: ", products);
